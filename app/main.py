@@ -25,15 +25,25 @@ class StockCreate(BaseModel):
 def get_stocks():
     db = get_db()
     cursor = db.cursor(dictionary=True)
-
-    # TODO: fill this out
-    query = ""
-
-    cursor.execute(query)
+    cursor.execute("SELECT * FROM stock")
     stocks = cursor.fetchall()
     cursor.close()
     db.close()
     return stocks
+
+
+@app.get("/stocks/{stock_id}")
+def get_stock(stock_id: int):
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute(f"SELECT * FROM stock WHERE id = {stock_id}")
+    stock = cursor.fetchone()
+    cursor.close()
+    db.close()
+
+    if stock is None:
+        raise HTTPException(status_code=404, detail="Stock not found")
+    return stock
 
 
 @app.post("/stocks")
@@ -41,9 +51,10 @@ def create_stock(stock: StockCreate):
     db = get_db()
     cursor = db.cursor()
 
-    # TODO: fill this out
-    query = f""""""
-
+    query = f"""
+        INSERT INTO stock (symbol, price, company_name)
+        VALUES ('{stock.symbol}', {stock.price}, '{stock.company_name}')
+    """
     cursor.execute(query)
     db.commit()
 
@@ -56,44 +67,19 @@ def create_stock(stock: StockCreate):
     return new_stock
 
 
-@app.get("/stocks/{stock_id}")
-def get_stock(stock_id: int):
-    db = get_db()
-    cursor = db.cursor(dictionary=True)
-
-    # TODO: fill this out
-    query = ""
-
-    cursor.execute(query)
-    stock = cursor.fetchone()
-    cursor.close()
-    db.close()
-
-    if stock is None:
-        raise HTTPException(status_code=404, detail="Stock not found")
-    return stock
-
-
 @app.delete("/stocks/{stock_id}")
 def delete_stock(stock_id: int):
     db = get_db()
     cursor = db.cursor()
 
     # Check if stock exists
-    # TODO: fille this out
-    query = f""
-
-    cursor.execute(query)
+    cursor.execute(f"SELECT id FROM stock WHERE id = {stock_id}")
     if cursor.fetchone() is None:
         cursor.close()
         db.close()
         raise HTTPException(status_code=404, detail="Stock not found")
 
-    # delete the stock
-    # TODO: fill this out
-    query = f""
-
-    cursor.execute(query)
+    cursor.execute(f"DELETE FROM stock WHERE id = {stock_id}")
     db.commit()
     cursor.close()
     db.close()
