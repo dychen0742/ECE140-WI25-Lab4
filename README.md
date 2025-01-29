@@ -18,6 +18,8 @@ Also, if you open up Docker Desktop, you'll be able to see the running container
 
 Please see the Lab Session 4 slides posted on Canvas.
 
+**Note**: If you receive a permission denied error when connecting to MySQL, we recommend changing the port mapping from `3306:3306` to `3307:3306` in the docker-compose YAML file.
+
 ### Part 1: Get All Stocks
 
 1. Go to `app/main.py`
