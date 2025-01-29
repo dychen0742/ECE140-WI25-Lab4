@@ -37,3 +37,8 @@ Please see the Lab Session 4 slides posted on Canvas.
 
 1. Go to `app/main.py`
 2. Now, find the TODO in `delete_stock()` and fill the query to get all stocks from the database.
+
+### Part 5: Test it out
+
+1. Go to `http://localhost:8000/docs`
+2. Test out the API by creating, getting, and deleting stocks. You should see successful (200) responses, and your database should be updated accordingly.
